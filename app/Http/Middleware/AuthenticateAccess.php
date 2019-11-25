@@ -17,8 +17,9 @@ class AuthenticateAccess
     public function handle($request, Closure $next)
     {
         $validSecrets = explode(',', env('ACCEPTED_SECRETS'));
+        $authorization = $request->header('Authorization');
 
-        if (in_array($request->header('Authorization'), $validSecrets)) {
+        if (in_array($authorization, $validSecrets) && !empty($authorization)) {
             return $next($request);
         }
 
